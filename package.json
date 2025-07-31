@@ -1,0 +1,13 @@
+{
+  "name": "members_top",
+  "version": "1.0.0",
+  "description": "App for trying Passport from TOP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx tsc -w & node --watch build/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
