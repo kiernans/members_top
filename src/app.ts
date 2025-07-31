@@ -1,6 +1,7 @@
 import path from "node:path";
 import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
+import router from "./routes";
 
 // Required for process.env
 dotenv.config();
@@ -11,6 +12,9 @@ const app: Express = express();
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
+
+// Set up router
+app.use("/", router);
 
 // Setting up listener
 const PORT = process.env.EXPRESS_PORT;
