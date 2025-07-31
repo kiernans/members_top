@@ -1,6 +1,8 @@
 import path from "node:path";
 import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
+import passport from "passport";
+import session from "express-session";
 import router from "./routes";
 
 // Required for process.env
@@ -11,6 +13,10 @@ const app: Express = express();
 // Assumes files are in src folder and views is one level up
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
+
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
 // Set up router
