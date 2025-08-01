@@ -9,29 +9,29 @@ function passwordMatches(value: string, { req }: Meta) {
 
 const validateUser = [
   body('name')
+    .trim()
     .notEmpty()
     .withMessage('Name is required')
-    .trim()
     .isLength({ min: 1, max: 30 })
     .withMessage('Name length must be between 1 and 30 characters'),
   body('email')
+    .trim()
     .notEmpty()
     .withMessage('Email is required')
-    .trim()
     .normalizeEmail()
     .isEmail()
     .withMessage('Must be in email format')
     .isLength({ min: 1, max: 30 })
     .withMessage('Email length must be between 1 and 30 characters'),
   body('password')
+    .trim()
     .notEmpty()
     .withMessage('Password is required')
-    .trim()
     .isStrongPassword(),
   body('confirmPassword')
+    .trim()
     .notEmpty()
     .withMessage('Must confirm password')
-    .trim()
     .isStrongPassword()
     .custom(passwordMatches)
     .withMessage('Passwords do not match'),
