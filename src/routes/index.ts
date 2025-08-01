@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import signupController from '../controllers/signupController';
 
 const router = Router();
 
@@ -17,5 +18,7 @@ router.get('/login', (req, res) => res.render('login', {}));
 /**
  * ------------------ POST ROUTES ------------------------
  */
+
+router.post('/sign-up', signupController.createUser);
 
 export default router;
