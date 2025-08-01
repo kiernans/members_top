@@ -63,7 +63,7 @@ const createUser = [
       }
       await db.addUser(newUser);
     } catch (error) {
-      if (error.code === '23505') {
+      if (error.code && error.code === '23505') {
         // Unique violation error code in PostgreSQL
         return res.status(400).json({ error: 'User already exists' });
       }
