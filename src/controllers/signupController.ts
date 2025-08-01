@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
-import { body, validationResult, Meta } from 'express-validator';
+import { NextFunction, Request, Response } from 'express';
+import { body, validationResult, Meta, matchedData } from 'express-validator';
+import bcrypt from 'bcryptjs';
 import db from '../db/query';
 
 // The Custom validator uses value and Meta objects as inputs
@@ -43,15 +44,27 @@ const validateUser = [
 
 const createUser = [
   ...validateUser,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.send({ errors: errors.array() });
     }
 
-    if (req.body.isAdmin) {
-      console.log('This user is an admin...');
+    try {
+      const data = matchedData(req);
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+      const { name, email } = data;
+      const newUser = { name, email, password: hashedPassword, isAdmin: false };
+
+      // Admin checkbox selected
+      if (req.body.isAdmin) {
+        newUser.isAdmin = true;
+      }
+      await db.addUser(newUser);
+    } catch (error) {
+      console.error(error);
+      next(error);
     }
     res.redirect('/');
   },

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import signupController from '../controllers/signupController';
+import db from '../db/query';
 
 const router = Router();
 
@@ -7,7 +8,10 @@ const router = Router();
  * ------------------ GET ROUTES ------------------------
  */
 
-router.get('/', (req, res) => res.render('index', {}));
+router.get('/', async (req, res) => {
+  console.log(await db.getUsers());
+  res.render('index', {});
+});
 
 router.get('/sign-up', (req, res) => res.render('sign-up', {}));
 
