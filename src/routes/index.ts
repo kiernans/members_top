@@ -2,6 +2,7 @@ import { Router } from 'express';
 import signupController from '../controllers/signupController';
 import db from '../db/query';
 import loginController from '../controllers/loginController';
+import logoutController from '../controllers/logoutController';
 
 const router = Router();
 
@@ -21,14 +22,7 @@ router.get('/join', (req, res) => res.render('join', {}));
 
 router.get('/log-in', (req, res) => res.render('login', {}));
 
-router.get('/log-out', (req, res, next) =>
-  req.logout((error) => {
-    if (error) {
-      return next(error);
-    }
-    res.redirect('/');
-  }),
-);
+router.get('/log-out', logoutController.logout);
 
 /**
  * ------------------ POST ROUTES ------------------------
