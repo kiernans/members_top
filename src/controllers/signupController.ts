@@ -52,9 +52,8 @@ const createUser = [
     }
 
     try {
-      const data = matchedData(req);
-      const hashedPassword = await bcrypt.hash(data.password, 10);
-      const { name, email } = data;
+      const { name, email, password } = matchedData(req);
+      const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = { name, email, password: hashedPassword, isAdmin: false };
 
       // Admin checkbox selected
