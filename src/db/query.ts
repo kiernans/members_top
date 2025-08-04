@@ -35,11 +35,22 @@ async function getUsers() {
 
 async function getUserByEmail(email: string) {
   try {
-    console.log('getUserByEmail');
     const { rows } = await pool.query(
       'SELECT * FROM users WHERE email = ($1)',
       [email],
     );
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function getUserById(id: string) {
+  try {
+    const { rows } = await pool.query('SELECT * FROM users WHERE id = ($1)', [
+      id,
+    ]);
     return rows[0];
   } catch (error) {
     console.error(error);
@@ -107,6 +118,7 @@ export default {
   getMessages,
   getUsers,
   getUserByEmail,
+  getUserById,
   addUser,
   addMessage,
   updateMembership,

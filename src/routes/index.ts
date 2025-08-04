@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import signupController from '../controllers/signupController';
 import db from '../db/query';
+import loginController from '../controllers/loginController';
 
 const router = Router();
 
@@ -17,12 +18,14 @@ router.get('/sign-up', (req, res) => res.render('sign-up', {}));
 
 router.get('/join', (req, res) => res.render('join', {}));
 
-router.get('/login', (req, res) => res.render('login', {}));
+router.get('/log-in', (req, res) => res.render('login', {}));
 
 /**
  * ------------------ POST ROUTES ------------------------
  */
 
 router.post('/sign-up', signupController.createUser);
+
+router.post('/log-in', loginController.login);
 
 export default router;
