@@ -8,6 +8,11 @@ function passwordMatches(value: string, { req }: Meta) {
   return value === req.body.password;
 }
 
+// Fixes issue of typescript not knowing if error has code property
+function isPgError(error: unknown): error is { code: string } {
+  return typeof error === 'object' && error !== null && 'code' in error;
+}
+
 const validateUser = [
   body('name')
     .trim()
@@ -62,7 +67,7 @@ const createUser = [
       }
       await db.addUser(newUser);
     } catch (error) {
-      if (error.code && error.code === '23505') {
+      if (isPgError(error) && error.code === '23505') {
         // Unique violation error code in PostgreSQL
         return res.status(400).json({ error: 'User already exists' });
       }
