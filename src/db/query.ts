@@ -33,6 +33,20 @@ async function getUsers() {
   }
 }
 
+async function getUserByEmail(email: string) {
+  try {
+    console.log('getUserByEmail');
+    const { rows } = await pool.query(
+      'SELECT * FROM users WHERE email = ($1)',
+      [email],
+    );
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function addUser({ name, email, password, isAdmin = false }: User) {
   try {
     await pool.query(
@@ -72,9 +86,29 @@ async function addMessage({ user_id, title, text }: Message) {
   }
 }
 
+async function updateMembership() {}
+
+async function deleteUser(id: number) {
+  try {
+    await pool.query(
+      `
+      DELETE FROM users
+      WHERE id = ($1)
+      `,
+      [id],
+    );
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export default {
   getMessages,
   getUsers,
+  getUserByEmail,
   addUser,
   addMessage,
+  updateMembership,
+  deleteUser,
 };
