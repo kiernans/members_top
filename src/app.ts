@@ -20,8 +20,9 @@ app.use(session({ secret: 'cats', resave: false, saveUninitialized: false }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
-// Added to avoid having to pass req.user into each controller
+// Added to avoid having to pass req.user into each controller/view
 // Puts into currentUser local variable
+// MUST BE AFTER PASSPORT AND BEFORE ROUTER for controller/views to be able to see
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();

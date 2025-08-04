@@ -13,7 +13,7 @@ const router = Router();
 router.get('/', async (req, res) => {
   console.log(await db.getUsers());
   // User needed for displaying either login or logout navbar
-  res.render('index', { user: res.locals.currentUser });
+  res.render('index', {});
 });
 
 router.get('/sign-up', (req, res) => res.render('sign-up', {}));
