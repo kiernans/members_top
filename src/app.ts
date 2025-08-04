@@ -20,6 +20,13 @@ app.use(session({ secret: 'cats', resave: false, saveUninitialized: false }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
+// Added to avoid having to pass req.user into each controller
+// Puts into currentUser local variable
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 // Strategy to be used by authenticate later
 // usernameField VERY IMPORTANT or else authenticate will always fail
 // as it looks for the field that's called username by default

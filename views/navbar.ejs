@@ -4,6 +4,10 @@
         &nbsp;
         <a href="/join">Join the club!</a>
         &nbsp;
+        <% if (!locals.user) {%>
         <a href="/log-in">Login</a>
+        <% } else { %>
+        <a href="/log-out">Logout</a>
+        <%}%>
         </br>
 </div>
