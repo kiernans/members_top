@@ -2,12 +2,12 @@
         <br>
         <a href="/sign-up">Sign up</a>
         &nbsp;
-        <a href="/join">Join the club!</a>
-        &nbsp;
         <% if (!locals.currentUser) {%>
-        <a href="/log-in">Login</a>
+                <a href="/log-in">Login</a>
         <% } else { %>
-        <a href="/log-out">Logout</a>
+                <a href="/join">Join the club!</a>
+                &nbsp;
+                <a href="/log-out">Logout</a>
         <%}%>
         </br>
 </div>

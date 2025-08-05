@@ -3,6 +3,7 @@ import signupController from '../controllers/signupController';
 import db from '../db/query';
 import loginController from '../controllers/loginController';
 import logoutController from '../controllers/logoutController';
+import joinController from '../controllers/joinController';
 
 const router = Router();
 
@@ -27,7 +28,11 @@ router.get('/log-out', logoutController.logout);
  * ------------------ POST ROUTES ------------------------
  */
 
+//TODO Create middleware to check if authenticated for access to certain routes
+
 router.post('/sign-up', signupController.createUser);
+
+router.post('/join', joinController.addMembership);
 
 router.post('/log-in', loginController.login);
 

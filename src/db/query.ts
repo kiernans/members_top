@@ -1,3 +1,4 @@
+import { decodeBase64 } from 'bcryptjs';
 import pool from './pool';
 
 interface User {
@@ -97,7 +98,21 @@ async function addMessage({ user_id, title, text }: Message) {
   }
 }
 
-async function updateMembership() {}
+async function updateMembership(id: string) {
+  try {
+    await pool.query(
+      `
+      UPDATE users
+      SET membership_status = true
+      WHERE id = ($1)
+      `,
+      [id],
+    );
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 async function deleteUser(id: number) {
   try {
