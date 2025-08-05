@@ -38,7 +38,7 @@ const serializeUser = (user: Express.User, done: DoneCallback) => {
 const deserializeUser = async (id: string, done: DoneCallback) => {
   try {
     // Looks up user using the ID that's stored in the connect.sid cookie
-    const user = db.getUserById(id);
+    const user = await db.getUserById(id);
 
     done(null, user);
   } catch (err) {

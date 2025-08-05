@@ -12,7 +12,6 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   console.log(await db.getUsers());
-  // User needed for displaying either login or logout navbar
   res.render('index', {});
 });
 
