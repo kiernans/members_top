@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import { VerifyFunction } from 'passport-local';
 import passport, { DoneCallback } from 'passport';
+import { Request, Response, NextFunction } from 'express';
 
 interface User extends Express.User {
   id: string;
@@ -75,4 +76,19 @@ const login = [
   }),
 ];
 
-export default { login, verifyFunction, serializeUser, deserializeUser };
+function logout(req: Request, res: Response, next: NextFunction) {
+  req.logout((error) => {
+    if (error) {
+      return next(error);
+    }
+    res.redirect('/');
+  });
+}
+
+export default {
+  login,
+  verifyFunction,
+  serializeUser,
+  deserializeUser,
+  logout,
+};

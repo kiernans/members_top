@@ -5,7 +5,7 @@ import passport from 'passport';
 import session from 'express-session';
 import { Strategy as LocalStrategy } from 'passport-local';
 import router from './routes';
-import loginController from './controllers/loginController';
+import authController from './controllers/authController';
 
 // Required for process.env
 dotenv.config();
@@ -32,18 +32,18 @@ app.use((req, res, next) => {
 // usernameField VERY IMPORTANT or else authenticate will always fail
 // as it looks for the field that's called username by default
 passport.use(
-  new LocalStrategy({ usernameField: 'email' }, loginController.verifyFunction),
+  new LocalStrategy({ usernameField: 'email' }, authController.verifyFunction),
 );
 
 // Set up router
 app.use('/', router);
 
 // Put user information into cookie for continued authentication
-passport.serializeUser(loginController.serializeUser);
+passport.serializeUser(authController.serializeUser);
 
 // Deserializes info from cookie and uses to look up user in database
 // This allows for continued authentication throughout app after login
-passport.deserializeUser(loginController.deserializeUser);
+passport.deserializeUser(authController.deserializeUser);
 
 // Setting up listener
 const PORT = process.env.EXPRESS_PORT;
