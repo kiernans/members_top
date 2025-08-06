@@ -9,19 +9,10 @@ interface User {
 }
 
 interface Message {
-  user_id: number;
+  user_id: string;
+  author: string;
   title: string;
-  text: string;
-}
-
-async function getMessages() {
-  try {
-    const { rows } = await pool.query('SELECT * FROM messages ORDER BY id');
-    return rows;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  message: string;
 }
 
 async function getUsers() {
@@ -79,25 +70,6 @@ async function addUser({ name, email, password, isAdmin = false }: User) {
   }
 }
 
-async function addMessage({ user_id, title, text }: Message) {
-  try {
-    await pool.query(
-      `
-          INSERT INTO
-          users (title, text)
-          VALUES
-          (
-          ($1),
-          ($2),
-          ($3))`,
-      [user_id, title, text],
-    );
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
 async function updateMembership(id: string) {
   try {
     await pool.query(
@@ -114,7 +86,7 @@ async function updateMembership(id: string) {
   }
 }
 
-async function deleteUser(id: number) {
+async function deleteUser(id: string) {
   try {
     await pool.query(
       `
@@ -129,13 +101,55 @@ async function deleteUser(id: number) {
   }
 }
 
+async function getMessages() {
+  try {
+    const { rows } = await pool.query('SELECT * FROM messages ORDER BY id');
+    return rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function addMessage({ user_id, author, title, message }: Message) {
+  try {
+    await pool.query(
+      `
+      INSERT INTO
+      messages (user_id, author, title, message)
+      VALUES (($1), ($2), ($3), ($4))
+      `,
+      [user_id, author, title, message],
+    );
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function deleteMessage(id: string) {
+  try {
+    await pool.query(
+      `
+      DELETE FROM messages
+      WHERE id = ($1)
+      `,
+      [id],
+    );
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export default {
-  getMessages,
   getUsers,
   getUserByEmail,
   getUserById,
   addUser,
-  addMessage,
   updateMembership,
   deleteUser,
+  getMessages,
+  addMessage,
+  deleteMessage,
 };
