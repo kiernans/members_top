@@ -14,15 +14,13 @@ async function displayMessages(
   const user = req.user;
   try {
     const messages = await db.getMessages();
-    let user_id = '';
     let is_admin = false;
     if (user) {
-      user_id = (user as User).id;
       is_admin = (user as User).is_admin;
     }
+    console.log(messages);
     res.render('index', {
       messages: messages,
-      user_id: user_id,
       is_admin: is_admin,
     });
   } catch (error) {

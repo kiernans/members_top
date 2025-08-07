@@ -10,7 +10,6 @@ const router = Router();
 /**
  * ------------------ GET ROUTES ------------------------
  */
-// TODO Admin can also delete messages
 router.get('/', indexController.displayMessages);
 
 router.get('/sign-up', (req, res) => res.render('sign-up', {}));
@@ -27,16 +26,19 @@ router.get('/log-out', authController.logout);
  * ------------------ POST ROUTES ------------------------
  */
 
-//TODO Create middleware to check if authenticated for access to certain routes
-
 router.post('/sign-up', signupController.createUser);
 
 router.post('/create', messageController.createMessage);
 
-router.post('/join', joinController.addMembership);
+router.post('/join', authController.checkLogin, joinController.addMembership);
 
 router.post('/log-in', authController.login);
 
-router.post('/:id/delete', messageController.deleteMessage);
+router.post(
+  '/:id/delete',
+  authController.checkLogin,
+  authController.checkAdmin,
+  messageController.deleteMessage,
+);
 
 export default router;
