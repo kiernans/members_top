@@ -3,6 +3,7 @@ import db from '../db/query';
 
 interface User extends Express.User {
   id: string;
+  membership_status: boolean;
   is_admin: boolean;
 }
 
@@ -14,14 +15,17 @@ async function displayMessages(
   const user = req.user;
   try {
     const messages = await db.getMessages();
-    let is_admin = false;
+    let isMember = false;
+    let isAdmin = false;
     if (user) {
-      is_admin = (user as User).is_admin;
+      isMember = (user as User).membership_status;
+      isAdmin = (user as User).is_admin;
     }
     console.log(messages);
     res.render('index', {
       messages: messages,
-      is_admin: is_admin,
+      isMember: isMember,
+      isAdmin: isAdmin,
     });
   } catch (error) {
     next(error);
