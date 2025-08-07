@@ -1,4 +1,3 @@
-import { decodeBase64 } from 'bcryptjs';
 import pool from './pool';
 
 interface User {

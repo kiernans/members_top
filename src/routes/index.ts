@@ -1,21 +1,17 @@
 import { Router } from 'express';
 import signupController from '../controllers/signupController';
-import db from '../db/query';
 import joinController from '../controllers/joinController';
 import authController from '../controllers/authController';
 import messageController from '../controllers/messageController';
+import indexController from '../controllers/indexController';
 
 const router = Router();
 
 /**
  * ------------------ GET ROUTES ------------------------
  */
-
-router.get('/', async (req, res) => {
-  // console.log(await db.getUsers());
-  console.log(await db.getMessages());
-  res.render('index', {});
-});
+// TODO Admin can also delete messages
+router.get('/', indexController.displayMessages);
 
 router.get('/sign-up', (req, res) => res.render('sign-up', {}));
 
