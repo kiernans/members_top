@@ -37,4 +37,6 @@ router.post('/join', joinController.addMembership);
 
 router.post('/log-in', authController.login);
 
+router.post('/:id/delete', messageController.deleteMessage);
+
 export default router;

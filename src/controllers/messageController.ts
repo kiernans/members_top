@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { body, validationResult, matchedData } from 'express-validator';
 import db from '../db/query';
 
@@ -43,4 +43,16 @@ const createMessage = [
   },
 ];
 
-export default { createMessage };
+async function deleteMessage(req: Request, res: Response, next: NextFunction) {
+  try {
+    const id = req.params.id;
+    if (id) {
+      await db.deleteMessage(id);
+    }
+    res.redirect('/');
+  } catch (error) {
+    next(error);
+  }
+}
+
+export default { createMessage, deleteMessage };
